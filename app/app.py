@@ -30,7 +30,7 @@ banner = Image.open(BASE_DIR / "banner.jpg")
 st.image(banner, use_container_width=True)
 
 st.title("🌿 Plant Disease Detector Prototype")
-st.write("Upload a tomato leaf image to get a disease prediction and Grad‑CAM heatmap.")
+st.write("Upload a leaf image to get a disease prediction and Grad‑CAM heatmap.")
 
 uploaded = st.file_uploader("Upload a leaf image", type=["jpg", "jpeg", "png"])
 
