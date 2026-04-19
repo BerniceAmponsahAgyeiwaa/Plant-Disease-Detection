@@ -8,8 +8,8 @@ import json
 # ------------------------------
 # PATHS
 # ------------------------------
-MODEL_PATH = Path.cwd().parents[0] / "checkpoints" / "best_model.h5"
-CLASS_NAMES_PATH = Path.cwd().parents[0] / "class_names.json"
+MODEL_PATH = Path(__file__).parent.parent / "checkpoints" / "best_model.h5"
+CLASS_NAMES_PATH = Path(__file__).parent.parent / "class_names.json"
 
 # ------------------------------
 # LOAD MODEL
