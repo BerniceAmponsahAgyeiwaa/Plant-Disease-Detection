@@ -2,12 +2,14 @@
 import streamlit as st
 from PIL import Image
 import numpy as np
+from pathlib import Path
 
 # local modules (must be in same folder)
 from predict import predict, model as loaded_model  # predict returns preds & img_array
 from gradcam import generate_gradcam
 
-
+# Base directory — always the folder where app.py lives
+BASE_DIR = Path(__file__).parent
 
 st.markdown("""
 <style>
@@ -22,7 +24,7 @@ img:hover{
 st.set_page_config(page_title="Plant Disease Detector", layout="wide")
 
 # ---- BANNER SECTION ----
-banner = Image.open("banner.jpg")
+banner = Image.open(BASE_DIR / "banner.jpg")
 
 # Make it nicely span the page width
 st.image(banner, use_container_width=True)
@@ -68,18 +70,17 @@ if uploaded:
         st.image(img.resize((350, 350)), caption="Original Image")
     with colB:
         st.image(heatmap_overlay.resize((350, 350)), caption="Grad‑CAM Heatmap (overlay)")
-# --- Disease Dataset Exploration Section ---
+
+    # --- Disease Dataset Exploration Section ---
     st.subheader("Disease Dataset Exploration")
 
-    from pathlib import Path
-    from PIL import Image
     import io, base64
 
     # Use predicted_class directly
     class_name = predicted_class
 
     # Path to the class folder
-    class_folder = Path("samples") / class_name
+    class_folder = BASE_DIR / "samples" / class_name
 
     # Get images (jpg/png, case-insensitive)
     sample_images = [f for f in class_folder.iterdir() if f.suffix.lower() in [".jpg", ".png"]] if class_folder.exists() else []
@@ -203,7 +204,7 @@ if uploaded:
 
     except Exception:
         # SILENT fallback to offline dictionary
-        disease_info = disease_info_fallback.get(predicted_class, 
+        disease_info = disease_info_fallback.get(predicted_class,
                                                 {"symptoms": [], "causes": [], "prevention": [], "treatment": []})
 
     # ------------------ DISPLAY 2x2 FIXED CARDS ------------------
